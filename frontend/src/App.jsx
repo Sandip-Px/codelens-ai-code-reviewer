@@ -20,14 +20,15 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [history, setHistory] = useState([]);
   const editorRef = useRef(null);
-
+  const API_URL = import.meta.env.VITE_API_URL;
   const handleEditorMount = (editor) => {
     editorRef.current = editor;
   };
   useEffect(() => {
     const loadHistory = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/reviews/");
+        const response = await fetch(
+  `${API_URL}/api/reviews/`);
         if (!response.ok) throw new Error("Failed to load history");
 
         const data = await response.json();
@@ -42,7 +43,7 @@ function App() {
   useEffect(() => {
     const checkApi = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/health");
+        const response = await fetch(`${API_URL}/health`);
 
         if (!response.ok) {
           throw new Error("API unavailable");
@@ -95,7 +96,7 @@ const reviewCode = async () => {
 
   try {
     const response = await fetch(
-      "http://127.0.0.1:8000/api/reviews/",
+  `${API_URL}/api/reviews/`,
       {
         method: "POST",
         headers: {
